@@ -1,0 +1,15 @@
+.container {
+    padding: 50px;
+}
+
+.panel-group .panel {
+    border-radius: 0px;
+}
+
+.panel {
+     border-radius: 0px;
+ }
+
+#companies-tab {
+    padding-top: 5px;
+}

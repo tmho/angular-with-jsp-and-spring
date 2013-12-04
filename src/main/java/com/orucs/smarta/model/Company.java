@@ -1,5 +1,7 @@
 package com.orucs.smarta.model;
 
+import com.orucs.smarta.db.model.Manager;
+
 import java.util.List;
 
 public class Company {
