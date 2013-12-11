@@ -13,16 +13,18 @@ import java.util.List;
 @Repository
 public class ManagerDaoImpl implements ManagerDao {
 
-//    private static final String CREATE_COMPANY_STATEMENT = "INSERT INTO COMPANY (name, address, lat, lng, landline, email) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_MANAGERS_FOR_COMPANY = "SELECT manager.id, manager.firstname, manager.surname, company_manager.mobile, company.fax, company_manager.landline, company_manager.email FROM company, company_manager, manager WHERE company.id = ? AND company.id = company_manager.company_id AND manager.id = company_manager.manager_id;";
+    private static final String INSERT_MANAGER = "INSERT INTO manager (firstname, surname, email, mobile) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_COMPANY_MANAGER = "INSERT INTO company_manager (company_id, manager_id, joined, departed, mobile, landline, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Manager> create(Long companyId, Manager manager) {
-//        jdbcTemplate.update(CREATE_COMPANY_STATEMENT, company.getName(), company.getAddress(), company.getLat(), company.getLng(), company.getLandline(), company.getEmail());
-        return getManagersForCompany(1L);
+        jdbcTemplate.update(INSERT_MANAGER, manager.getFirstname(), manager.getSurname(), manager.getPersonalEmail(), manager.getPersonalMobile());
+        jdbcTemplate.update(INSERT_COMPANY_MANAGER, companyId, manager.getId(), manager.getJoined(), manager.getDeparted(), manager.getWorkMobile(), manager.getWorkPhone(), manager.getWorkEmail());
+        return getManagersForCompany(companyId);
     }
 
     @Override
@@ -36,12 +38,12 @@ public class ManagerDaoImpl implements ManagerDao {
         public Manager mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             Manager record = new Manager();
             record.setId(resultSet.getLong(1));
-            record.setFirstName(resultSet.getString(2));
+            record.setFirstname(resultSet.getString(2));
             record.setSurname(resultSet.getString(3));
-            record.setMobile(resultSet.getString(4));
-            record.setFax(resultSet.getString(5));
-            record.setLandline(resultSet.getString(6));
-            record.setEmail(resultSet.getString(7));
+            record.setWorkMobile(resultSet.getString(4));
+            record.setWorkPhone(resultSet.getString(5));
+            record.setPersonalMobile(resultSet.getString(6));
+            record.setWorkEmail(resultSet.getString(7));
             return record;
         }
     }

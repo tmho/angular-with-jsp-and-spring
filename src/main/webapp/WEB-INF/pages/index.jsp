@@ -16,7 +16,7 @@
 
     <div class="tab-content">
 
-        <div class="tab-pane active" id="companies-tab" ng-controller="companiesListController">
+        <div class="tab-pane active" id="companies-tab">
             <jsp:include page="company.jsp"/>
         </div>
 

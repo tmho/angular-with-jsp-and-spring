@@ -1,13 +1,18 @@
 package com.orucs.smarta.db.model;
 
+import java.util.Date;
+
 public class Manager {
     private Long id;
     private String firstname;
     private String surname;
-    private String mobile;
-    private String fax;
-    private String landline;
-    private String email;
+    private String personalMobile;
+    private String personalEmail;
+    private Date joined;
+    private Date departed;
+    private String workMobile;
+    private String workPhone;
+    private String workEmail;
 
     public Long getId() {
         return id;
@@ -17,11 +22,11 @@ public class Manager {
         this.id = id;
     }
 
-    public String getFirstName() {
+    public String getFirstname() {
         return firstname;
     }
 
-    public void setFirstName(String firstname) {
+    public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
@@ -33,43 +38,59 @@ public class Manager {
         this.surname = surname;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getPersonalMobile() {
+        return personalMobile;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setPersonalMobile(String personalMobile) {
+        this.personalMobile = personalMobile;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getPersonalEmail() {
+        return personalEmail;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setPersonalEmail(String personalEmail) {
+        this.personalEmail = personalEmail;
     }
 
-    public String getFax() {
-        return fax;
+    public Date getJoined() {
+        return joined;
     }
 
-    public void setFax(String fax) {
-        this.fax = fax;
+    public void setJoined(Date joined) {
+        this.joined = joined;
     }
 
-    public String getLandline() {
-        return landline;
+    public Date getDeparted() {
+        return departed;
     }
 
-    public void setLandline(String landline) {
-        this.landline = landline;
+    public void setDeparted(Date departed) {
+        this.departed = departed;
     }
 
-    public String getEmail() {
-        return email;
+    public String getWorkMobile() {
+        return workMobile;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setWorkMobile(String workMobile) {
+        this.workMobile = workMobile;
+    }
+
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
+    public void setWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
+    }
+
+    public String getWorkEmail() {
+        return workEmail;
+    }
+
+    public void setWorkEmail(String workEmail) {
+        this.workEmail = workEmail;
     }
 }
