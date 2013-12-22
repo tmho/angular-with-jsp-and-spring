@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ public class ManagerDaoImpl implements ManagerDao {
     @Override
     public List<Manager> create(Long companyId, Manager manager) {
         jdbcTemplate.update(INSERT_MANAGER, manager.getFirstname(), manager.getSurname(), manager.getPersonalEmail(), manager.getPersonalMobile());
-        jdbcTemplate.update(INSERT_COMPANY_MANAGER, companyId, manager.getId(), manager.getJoined(), manager.getDeparted(), manager.getWorkMobile(), manager.getWorkPhone(), manager.getWorkEmail());
+        jdbcTemplate.update(INSERT_COMPANY_MANAGER, 999, manager.getId(), manager.getJoined(), manager.getDeparted(), manager.getWorkMobile(), manager.getWorkPhone(), manager.getWorkEmail());
         return getManagersForCompany(companyId);
     }
 

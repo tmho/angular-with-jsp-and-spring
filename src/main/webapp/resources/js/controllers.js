@@ -5,8 +5,12 @@ var smartaApp = angular.module('smartaApp', []);
 smartaApp.controller('companiesListController', [ "$scope", "$http", "state", function ($scope, $http, state) {
     $scope.state = state;
 
-    $http.get('/companies/getAll').success(function (data) {
-        state.companies = data;
+    $http.get('/api/companies/').success(function (data) {
+        if (data.error) {
+            //TODO: do something with an error...
+        } else {
+            state.companies = data.response;
+        }
     });
 
     $scope.findManagers = function (companyId) {

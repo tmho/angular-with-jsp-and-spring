@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -48,6 +51,21 @@ public class CompanyDaoImpl implements CompanyDao {
     public List<Company> updateCompany(Company company) {
         jdbcTemplate.update(UPDATE_COMPANY,
                 company.getName(), company.getAddress(), company.getLat(), company.getLng(), company.getLandline(), company.getEmail(), company.getId());
+        return getAll();
+    }
+
+    @Override
+    public List<Company> test() throws Exception {
+
+        Company company1 = new Company();
+        company1.setName("new company 1");
+        company1.setId(1L);
+        updateCompany(company1);
+        Company company2 = new Company();
+        company2.setName("new company 2");
+        company2.setId(9191L);
+        updateCompany(company2);
+
         return getAll();
     }
 

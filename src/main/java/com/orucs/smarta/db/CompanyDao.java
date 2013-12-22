@@ -9,4 +9,5 @@ public interface CompanyDao {
     public List<Company> getAll();
     public Company getCompany(Long id) throws Exception;
     public List<Company> updateCompany(Company company);
+    public List<Company> test() throws Exception;
 }

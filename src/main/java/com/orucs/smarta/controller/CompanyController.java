@@ -42,4 +42,11 @@ public class CompanyController extends BaseController {
     Response<List<Company>> updateCompany(@RequestBody Company company) throws Exception {
         return new Response<List<Company>>(companyDao.updateCompany(company));
     }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Response<List<Company>> test() throws Exception {
+        return new Response<List<Company>>(companyDao.test());
+    }
 }
