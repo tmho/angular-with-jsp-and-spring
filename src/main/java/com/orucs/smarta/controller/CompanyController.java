@@ -9,23 +9,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-public class CompanyController {
+@RequestMapping(value = "/api/companies")
+public class CompanyController extends BaseController {
 
     @Autowired
     private CompanyDao companyDao;
 
-    @RequestMapping(value = "/companies/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<Company> createCompany(@RequestBody Company company) {
-        return companyDao.insert(company);
+    Response<List<Company>> getAllCompanies() throws Exception {
+        return new Response<List<Company>>(companyDao.getAll());
     }
 
-    @RequestMapping(value = "/companies/getAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public
     @ResponseBody
-    List<Company> getAllCompanies() {
-        return companyDao.getAll();
+    Response<List<Company>> insertCompany(@RequestBody Company company) throws Exception {
+        return new Response<List<Company>>(companyDao.insert(company));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Response<Company> getCompany(@PathVariable("id") Long id) throws Exception {
+        return new Response<Company>(companyDao.getCompany(id));
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response<List<Company>> updateCompany(@RequestBody Company company) throws Exception {
+        return new Response<List<Company>>(companyDao.updateCompany(company));
     }
 }
-

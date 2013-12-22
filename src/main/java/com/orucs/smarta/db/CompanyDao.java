@@ -7,4 +7,6 @@ import java.util.List;
 public interface CompanyDao {
     public List<Company> insert(Company company);
     public List<Company> getAll();
+    public Company getCompany(Long id) throws Exception;
+    public List<Company> updateCompany(Company company);
 }
