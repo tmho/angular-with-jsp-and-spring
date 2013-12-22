@@ -26,7 +26,8 @@ public class CompanyController extends BaseController {
     public
     @ResponseBody
     Response<List<Company>> insertCompany(@RequestBody Company company) throws Exception {
-        return new Response<List<Company>>(companyDao.insert(company));
+        companyDao.insert(company);
+        return new Response<List<Company>>(companyDao.getAll());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -40,13 +41,8 @@ public class CompanyController extends BaseController {
     public
     @ResponseBody
     Response<List<Company>> updateCompany(@RequestBody Company company) throws Exception {
-        return new Response<List<Company>>(companyDao.updateCompany(company));
+        companyDao.updateCompany(company);
+        return new Response<List<Company>>(companyDao.getAll());
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    Response<List<Company>> test() throws Exception {
-        return new Response<List<Company>>(companyDao.test());
-    }
 }

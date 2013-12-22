@@ -5,9 +5,8 @@ import com.orucs.smarta.db.model.Company;
 import java.util.List;
 
 public interface CompanyDao {
-    public List<Company> insert(Company company);
-    public List<Company> getAll();
+    public void insert(Company company) throws Exception;
+    public List<Company> getAll() throws Exception;
     public Company getCompany(Long id) throws Exception;
-    public List<Company> updateCompany(Company company);
-    public List<Company> test() throws Exception;
+    public void updateCompany(Company company) throws Exception;
 }

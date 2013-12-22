@@ -3,45 +3,58 @@ package com.orucs.smarta.db;
 import com.orucs.smarta.controller.ResourceNotFound;
 import com.orucs.smarta.db.model.Company;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 @Repository
 public class CompanyDaoImpl implements CompanyDao {
-    private static final String CREATE_COMPANY_STATEMENT = "INSERT INTO COMPANY (name, address, lat, lng, landline, email) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String CREATE_COMPANY_STATEMENT = "INSERT INTO COMPANY (name, address, lat, lng, landline, email) VALUES (:name, :address, :lat, :lng, :landline, :email)";
     private static final String GET_ALL_COMPANIES_STATEMENT = "SELECT id, name, address, lat, lng, landline, email FROM company";
-    private static final String GET_COMPANY_BY_ID = "SELECT id, name, address, lat, lng, landline, email FROM company where id = ?";
-    private static final String UPDATE_COMPANY = "UPDATE company SET name = ?, address = ?, lat = ?, lng = ?, landline = ?, email = ? WHERE id = ?";
+    private static final String GET_COMPANY_BY_ID = "SELECT id, name, address, lat, lng, landline, email FROM company where id = :id";
+    private static final String UPDATE_COMPANY = "UPDATE company SET name = :name, address = :address, lat = :lat, lng = lng, landline = :landline, email = :email WHERE id = :id";
 
-    private static final CompanyRowMapper rowMapper = new CompanyRowMapper();
+    private static final CompanyRowMapper ROW_MAPPER = new CompanyRowMapper();
+
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Override
-    public List<Company> insert(Company company) {
-        jdbcTemplate.update(CREATE_COMPANY_STATEMENT, new Object[]{
-                company.getName(), company.getAddress(), company.getLat(), company.getLng(), company.getLandline(), company.getEmail()});
-        return getAll();
+    public void setDatasource(DataSource datasource) {
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(datasource);
     }
 
     @Override
-    public List<Company> getAll() {
-        return jdbcTemplate.query(GET_ALL_COMPANIES_STATEMENT, new CompanyRowMapper());
+    public void insert(Company company) throws Exception {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("name", company.getName());
+        parameters.put("address", company.getAddress());
+        parameters.put("lat", company.getLat());
+        parameters.put("lng", company.getLng());
+        parameters.put("landline", company.getLandline());
+        parameters.put("email", company.getEmail());
+        namedParameterJdbcTemplate.update(CREATE_COMPANY_STATEMENT, parameters);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Company> getAll() throws Exception {
+        return namedParameterJdbcTemplate.query(GET_ALL_COMPANIES_STATEMENT, ROW_MAPPER);
     }
 
     @Override
     public Company getCompany(Long id) throws Exception {
-        List<Company> companies = jdbcTemplate.query(GET_COMPANY_BY_ID, new Object[]{id}, rowMapper);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("id", id);
+        List<Company> companies = namedParameterJdbcTemplate.query(GET_COMPANY_BY_ID, parameters, ROW_MAPPER);
 
         if (companies.size() > 0) {
             return companies.get(0);
@@ -50,28 +63,17 @@ public class CompanyDaoImpl implements CompanyDao {
         }
     }
 
-    @Transactional
     @Override
-    public List<Company> updateCompany(Company company) {
-        jdbcTemplate.update(UPDATE_COMPANY,
-                company.getName(), company.getAddress(), company.getLat(), company.getLng(), company.getLandline(), company.getEmail(), company.getId());
-        return getAll();
-    }
+    public void updateCompany(Company company) throws Exception {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("name", company.getName());
+        parameters.put("address", company.getAddress());
+        parameters.put("lat", company.getLat());
+        parameters.put("lng", company.getLng());
+        parameters.put("landline", company.getLandline());
+        parameters.put("email", company.getEmail());
 
-    @Transactional
-    @Override
-    public List<Company> test() throws Exception {
-
-        Company company1 = new Company();
-        company1.setName("new company 1");
-        company1.setId(1L);
-        updateCompany(company1);
-        Company company2 = new Company();
-        company2.setName("new company 2");
-        company2.setId(9191L);
-        updateCompany(company2);
-
-        return getAll();
+        namedParameterJdbcTemplate.update(UPDATE_COMPANY, parameters);
     }
 
     private static class CompanyRowMapper implements RowMapper<Company> {
