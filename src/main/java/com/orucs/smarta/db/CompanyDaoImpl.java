@@ -14,12 +14,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Transactional
 @Repository
 public class CompanyDaoImpl implements CompanyDao {
     private static final String CREATE_COMPANY_STATEMENT = "INSERT INTO COMPANY (name, address, lat, lng, landline, email) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_COMPANIES_STATEMENT = "SELECT id, name, address, lat, lng, landline, email FROM company";
     private static final String GET_COMPANY_BY_ID = "SELECT id, name, address, lat, lng, landline, email FROM company where id = ?";
     private static final String UPDATE_COMPANY = "UPDATE company SET name = ?, address = ?, lat = ?, lng = ?, landline = ?, email = ? WHERE id = ?";
+
+    private static final CompanyRowMapper rowMapper = new CompanyRowMapper();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -38,7 +41,7 @@ public class CompanyDaoImpl implements CompanyDao {
 
     @Override
     public Company getCompany(Long id) throws Exception {
-        List<Company> companies = jdbcTemplate.query(GET_COMPANY_BY_ID, new Object[]{id}, new CompanyRowMapper());
+        List<Company> companies = jdbcTemplate.query(GET_COMPANY_BY_ID, new Object[]{id}, rowMapper);
 
         if (companies.size() > 0) {
             return companies.get(0);
@@ -47,6 +50,7 @@ public class CompanyDaoImpl implements CompanyDao {
         }
     }
 
+    @Transactional
     @Override
     public List<Company> updateCompany(Company company) {
         jdbcTemplate.update(UPDATE_COMPANY,
@@ -54,6 +58,7 @@ public class CompanyDaoImpl implements CompanyDao {
         return getAll();
     }
 
+    @Transactional
     @Override
     public List<Company> test() throws Exception {
 
