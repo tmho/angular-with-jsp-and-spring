@@ -1,0 +1,50 @@
+<div class="companies view">
+    <div class="container">
+
+        <!--<header>-->
+        <!--<h3>Companies</h3>-->
+        <!--</header>-->
+        <!--<div class="row">-->
+        <!--<div class="span3">-->
+        <!--Name:-->
+        <!--<br />-->
+        <!--<input ng-model="newCompany.name" type="text" placeholder="Name">-->
+        <!--</div>-->
+        <!--<div class="span3">-->
+        <!--Phone:-->
+        <!--<br />-->
+        <!--<input ng-model="newCompany.phone" type="text" placeholder="Phone">-->
+        <!--</div>-->
+        <!--<div class="span6">-->
+        <!--Website:-->
+        <!--<br />-->
+        <!--<input ng-model="newCompany.website" type="text" placeholder="Website">-->
+        <!--<button id="submitCompany" class="btn btn-primary" type="button"-->
+        <!--ng-disabled="!newCompany.name || !newCompany.phone || !newCompany.website"-->
+        <!--ng-click="insertCompany()">Add Company</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<br /><br />-->
+
+        <table class="table table-striped">
+            <tr ng-repeat="company in companies | filter: searchText | orderBy:'name'">
+                <td>
+                    {{company.name}} <br/>
+                    {{company.phone}} <br/>
+                    {{company.website}} <br/>
+                    <table class="table table-striped">
+                        <tr ng-repeat="employee in company.staff | orderBy: 'surname'">
+                            <td>
+                                {{employee.surname | uppercase}}, {{employee.firstName}} - {{employee.role}} <br/>
+                                {{employee.mobile}}, {{employee.email}}
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+
+            </tr>
+        </table>
+
+    </div>
+</div>

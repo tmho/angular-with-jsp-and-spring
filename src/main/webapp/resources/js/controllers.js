@@ -2,6 +2,7 @@
 
 var smartaApp = angular.module('smartaApp', []);
 
+//phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
 smartaApp.controller('companiesListController', [ "$scope", "$http", "state", function ($scope, $http, state) {
     $scope.state = state;
 

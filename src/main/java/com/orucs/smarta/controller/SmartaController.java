@@ -9,6 +9,6 @@ public class SmartaController {
 
     @RequestMapping(value="/")
     public String index() {
-        return "index";
+        return "new";
     }
 }

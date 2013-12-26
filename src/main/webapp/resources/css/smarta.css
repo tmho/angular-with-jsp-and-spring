@@ -13,3 +13,16 @@
 #companies-tab {
     padding-top: 5px;
 }
+
+.container {
+    padding: 15px;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+
+#job_fragment_button_container {
+    float: right;
+    padding-bottom: 10px;
+}
